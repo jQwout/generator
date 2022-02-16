@@ -13,7 +13,7 @@ package app.tedu.api_generator.lexer.kotlin
 
 
 fun kotlinClass(
-    imports: List<String>,
+    imports: Set<String>,
     comments: List<String> = emptyList(),
     classContent: String
 ) = buildString {

@@ -14,7 +14,7 @@ class KotlinRetrofitLexer(val methodLexer: KotlinMethodLexer) : ApiAccessObject 
         checkTagsEq(list)
 
         return kotlinClass(
-            imports = list.imports().toList(),
+            imports = list.imports(),
             classContent = apiInterface(list) {
                 methods()
             }
@@ -41,8 +41,8 @@ class KotlinRetrofitLexer(val methodLexer: KotlinMethodLexer) : ApiAccessObject 
 
     private fun apiInterface(list: List<ApiFunWrapper>, defineMethods: List<ApiFunWrapper>.() -> String): String {
         return buildString {
-            append("interface ${objectName(list)}")
-            appendLine(" {")
+            append("interface ${objectName(list)} ")
+            appendLine("{")
             appendLine(defineMethods(list))
             appendLine("}")
         }

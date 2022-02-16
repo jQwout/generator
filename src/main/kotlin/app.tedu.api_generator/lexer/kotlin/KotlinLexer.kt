@@ -57,8 +57,11 @@ class KotlinModelLexer(
     }
 
     private fun ModelWrapper.getImports() = model.properties.values
-        .mapNotNull { it.getClassReferenceOrNull }
+        .mapNotNull {
+            it.getClassReferenceOrNull ?: it.items?.getClassReferenceOrNull
+        }
         .map { Ref.getCommonOrTag(it) + "." + it }
+        .toSet()
 
     private fun ModelWrapper.getComment() = Ref.getTags(this.name).joinToString()
 }

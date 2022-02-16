@@ -91,5 +91,9 @@ class Ref(
                 else -> "common"
             }
         }
+
+        fun getImportTag(className: String): String {
+            return getCommonOrTag(className) + "." + className
+        }
     }
 }
