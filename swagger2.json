@@ -1,0 +1,7103 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Tedu.Server Admin API",
+    "version": "v3.0.30.0"
+  },
+  "host": "develop.tedu.app",
+  "basePath": "/api-admin",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/api/Account/GetMagicLink": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "operationId": "Account_GetMagicLink",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/EmailInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/GetMagicLinkSuccessResultModel"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before sending a new request",
+                "type": "integer",
+                "format": ""
+              }
+            }
+          },
+          "429": {
+            "description": "Client Error",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before sending a new request",
+                "type": "integer",
+                "format": ""
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Account/Logout": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Account_Logout",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TokenModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Account/VerifyEmail": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Indicating whether email exists on the server side.",
+        "operationId": "Account_VerifyEmail",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Email",
+            "description": "Gets or sets the email address.",
+            "required": true,
+            "type": "string",
+            "format": "email",
+            "maxLength": 254,
+            "minLength": 0
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/SuccessResultModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Account/Login": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Generates a token to access Tedu Tutoring API throw magic link.",
+        "operationId": "Account_Login",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Token",
+            "description": "Gets or sets the user's magic link token.",
+            "required": true,
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "Email",
+            "description": "Gets or sets the user's email.",
+            "required": true,
+            "type": "string",
+            "format": "email",
+            "maxLength": 254,
+            "minLength": 0
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TokenModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Account/RefreshToken": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "operationId": "Account_RefreshToken",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/RefreshTokenInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TokenModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Admins/myId": {
+      "get": {
+        "tags": [
+          "Admins"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Admins_GetMyId",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserIdModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Admins/page/{pageNumber}": {
+      "get": {
+        "tags": [
+          "Admins"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Admins_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pageNumber",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "SortBy"
+          },
+          {
+            "in": "query",
+            "name": "Order"
+          },
+          {
+            "in": "query",
+            "name": "FullName.Contains",
+            "description": "Gets or sets the pattern, that text should contain.",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "Email.Contains",
+            "description": "Gets or sets the pattern, that text should contain.",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "IsRoot",
+            "description": "Gets or sets filtering by is root parameters.",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "QuickSearch.Contains",
+            "description": "Gets or sets the pattern, that text should contain.",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AdminRowModelPagedListModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Admins/{id}": {
+      "get": {
+        "tags": [
+          "Admins"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Admins_GetSingle",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AdminRowModel"
+            }
+          },
+          "204": {
+            "description": "Success"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Admins"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "Admins_Update",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UpdateAdminInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AdminRowModel"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admins"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "Admins_Deactivate",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Admins": {
+      "post": {
+        "tags": [
+          "Admins"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "Admins_Add",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/AddAdminInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AdminRowModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Admins/{id}/accessRights": {
+      "get": {
+        "tags": [
+          "Admins"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Admins_GetAccessRights",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AdminAccessRightsModel"
+            }
+          },
+          "204": {
+            "description": "Success"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Admins"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "Admins_UpdateAccessRights",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/AdminAccessRightsInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AdminAccessRightsModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/ApplicationSettings/page/{pageNumber}": {
+      "get": {
+        "tags": [
+          "ApplicationSettings"
+        ],
+        "summary": " (Auth)",
+        "operationId": "ApplicationSettings_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pageNumber",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ApplicationSettingRowModelPagedListModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/ApplicationSettings": {
+      "post": {
+        "tags": [
+          "ApplicationSettings"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "ApplicationSettings_Add",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/AddApplicationSettingInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/AppointmentGroups": {
+      "post": {
+        "tags": [
+          "AppointmentGroups"
+        ],
+        "summary": " (Auth policies: CAN_ADD_STUDY_GROUPS)",
+        "operationId": "AppointmentGroups_Create",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/AppointmentGroupInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/integration/courses": {
+      "post": {
+        "tags": [
+          "CourseIntegration"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "CourseIntegration_Import",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CourseListInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "CourseIntegration"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "CourseIntegration_Export",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "CourseIntegration"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "CourseIntegration_Delete",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CourseTitlesInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/integration/courses/academicMeetings": {
+      "post": {
+        "tags": [
+          "CourseIntegration"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "CourseIntegration_ImportAcademicMeetings",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CourseAcademicMeetingsImport"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/integration/courses/all": {
+      "delete": {
+        "tags": [
+          "CourseIntegration"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "CourseIntegration_DeleteAll",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Courses/page/{pageNumber}": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Courses_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pageNumber",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "SortBy"
+          },
+          {
+            "in": "query",
+            "name": "Order"
+          },
+          {
+            "in": "query",
+            "name": "QuickSearch.Contains",
+            "description": "Gets or sets the pattern, that text should contain.",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CourseRowModelPagedListModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Courses/{id}/leaders": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Courses_GetAvailableCourseLeaders",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AvailableLeadersModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Enquires/page/{pageNumber}": {
+      "get": {
+        "tags": [
+          "Enquires"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Enquires_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pageNumber",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "SortBy"
+          },
+          {
+            "in": "query",
+            "name": "Order"
+          },
+          {
+            "in": "query",
+            "name": "IsAvailability",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "EnquiryCourseIds.Contains",
+            "required": true,
+            "type": "array",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "QuickSearch.Contains",
+            "description": "Gets or sets the pattern, that text should contain.",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/EnquiryRowModelPagedListModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Leaders/page/{pageNumber}": {
+      "get": {
+        "tags": [
+          "Leaders"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Leaders_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pageNumber",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "SortBy"
+          },
+          {
+            "in": "query",
+            "name": "Order"
+          },
+          {
+            "in": "query",
+            "name": "StudyGroupCourseIds.Contains",
+            "required": true,
+            "type": "array",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "AvailableCourseIds.Contains",
+            "required": true,
+            "type": "array",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "EligibleCourseIds.Contains",
+            "required": true,
+            "type": "array",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "QuickSearch.Contains",
+            "description": "Gets or sets the pattern, that text should contain.",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "IsInactive",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LeaderRowModelPagedListModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Locations/page/{pageNumber}": {
+      "get": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Locations_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pageNumber",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "SortBy"
+          },
+          {
+            "in": "query",
+            "name": "Order"
+          },
+          {
+            "in": "query",
+            "name": "Capacity.From",
+            "description": "Gets or sets left bound for a filtration range.\r\nCan be empty for the open interval filtration.",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "Capacity.To",
+            "description": "Gets or sets right bound for a filtration range.\r\nCan be empty for the open interval filtration.",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "QuickSearch.Contains",
+            "description": "Gets or sets the pattern, that text should contain.",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "IsActive",
+            "description": "Gets or sets status parameter.",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LocationRowModelPagedListModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Locations/{id}": {
+      "get": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Locations_GetSingle",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LocationModel"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Locations_Update",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/LocationUpdateInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LocationModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Locations": {
+      "post": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Locations_Add",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/LocationAddInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/Locations/{id}/changeStatus": {
+      "post": {
+        "tags": [
+          "Locations"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Locations_ChangeStatus",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/LocationStatusInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LocationModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Reports/SendAttendanceReport": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Reports_SendAttendanceReport",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/AttendanceReportInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/SuccessResultModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/integration/students": {
+      "post": {
+        "tags": [
+          "StudentIntegration"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "StudentIntegration_Import",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/StudentListInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "StudentIntegration"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "StudentIntegration_Export",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "StudentIntegration"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "StudentIntegration_Delete",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/StudentEmailsInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/integration/students/all": {
+      "delete": {
+        "tags": [
+          "StudentIntegration"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "StudentIntegration_DeleteAll",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/integration/students/availability": {
+      "post": {
+        "tags": [
+          "StudentIntegration"
+        ],
+        "summary": " (Auth policies: IS_ROOT)",
+        "operationId": "StudentIntegration_ImportAvailability",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/LeaderAvailabilityInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudyGroups/page/{pageNumber}": {
+      "get": {
+        "tags": [
+          "StudyGroups"
+        ],
+        "summary": " (Auth)",
+        "operationId": "StudyGroups_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pageNumber",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "SortBy"
+          },
+          {
+            "in": "query",
+            "name": "Order"
+          },
+          {
+            "in": "query",
+            "name": "Leader.IsEqual",
+            "type": "array",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "Course.IsEqual",
+            "type": "array",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "QuickSearch.Contains",
+            "description": "Gets or sets the pattern, that text should contain.",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "IsInactive",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StudyGroupRowModelPagedListModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudyGroups/{id}": {
+      "get": {
+        "tags": [
+          "StudyGroups"
+        ],
+        "summary": " (Auth)",
+        "operationId": "StudyGroups_GetSingle",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StudyGroupModel"
+            }
+          },
+          "204": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "StudyGroups"
+        ],
+        "summary": " (Auth policies: CAN_DELETE_STUDY_GROUPS)",
+        "operationId": "StudyGroups_Suspend",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudyGroups": {
+      "post": {
+        "tags": [
+          "StudyGroups"
+        ],
+        "summary": " (Auth policies: CAN_ADD_STUDY_GROUPS)",
+        "operationId": "StudyGroups_Add",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/StudyGroupAddInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudyGroups/{id}/updateTimetable": {
+      "post": {
+        "tags": [
+          "StudyGroups"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_STUDY_GROUPS)",
+        "operationId": "StudyGroups_UpdateTimetable",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/StudyGroupUpdateTimetableInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudyGroups/availableLeaders": {
+      "get": {
+        "tags": [
+          "StudyGroups"
+        ],
+        "summary": " (Auth)",
+        "operationId": "StudyGroups_GetAvailableLeaders",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "CourseId",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "maximum": 2147483647,
+            "minimum": 1
+          },
+          {
+            "in": "query",
+            "name": "TimetableId",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "maximum": 2147483647,
+            "minimum": 1
+          },
+          {
+            "in": "query",
+            "name": "TimeSlot",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "maximum": 2147483647,
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AvailableLeadersModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudyGroups/{id}/changeLeader": {
+      "post": {
+        "tags": [
+          "StudyGroups"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_STUDY_GROUPS)",
+        "operationId": "StudyGroups_ChangeLeader",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/StudyGroupLeaderInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LeaderUserModel"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudyGroups/{id}/changeEnrollment": {
+      "post": {
+        "tags": [
+          "StudyGroups"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_STUDY_GROUPS)",
+        "operationId": "StudyGroups_ChangeEnrollment",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/StudyGroupEnrollmentInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StudyGroupModel"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/generateGroups": {
+      "post": {
+        "tags": [
+          "StudyGroups"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_STUDY_GROUPS)",
+        "operationId": "StudyGroups_GenerateGroups",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fromDateTime",
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/StudySessions/page/{pageNumber}": {
+      "get": {
+        "tags": [
+          "StudySessions"
+        ],
+        "summary": " (Auth)",
+        "operationId": "StudySessions_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pageNumber",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "SortBy"
+          },
+          {
+            "in": "query",
+            "name": "Order"
+          },
+          {
+            "in": "query",
+            "name": "QuickSearch.Contains",
+            "description": "Gets or sets the pattern, that text should contain.",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "ScheduledDateTimeUtc.DateFrom",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "ScheduledDateTimeUtc.DateTo",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "ScheduledDateTimeUtc.TimeFrom",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "ScheduledDateTimeUtc.TimeTo",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "Leader.IsEqual",
+            "type": "array",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "Course.IsEqual",
+            "type": "array",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "IsInactive",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "IsConducted",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "IsCancelled",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StudySessionRowModelPagedListModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudySessions/{id}": {
+      "get": {
+        "tags": [
+          "StudySessions"
+        ],
+        "summary": " (Auth)",
+        "operationId": "StudySessions_GetSingle",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StudySessionModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudySessions/{id}/availableLeaders": {
+      "get": {
+        "tags": [
+          "StudySessions"
+        ],
+        "summary": " (Auth)",
+        "operationId": "StudySessions_GetAvailableLeaders",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "QuickSearchFullName",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AvailableLeadersModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudySessions/{id}/changeLeader": {
+      "post": {
+        "tags": [
+          "StudySessions"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_STUDY_GROUPS)",
+        "operationId": "StudySessions_ChangeLeader",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/StudyGroupLeaderInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LeaderUserModel"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudySessions/{id}/changeLocation": {
+      "post": {
+        "tags": [
+          "StudySessions"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_STUDY_GROUPS)",
+        "operationId": "StudySessions_ChangeLocation",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/StudySessionLocationInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LeaderUserModel"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/StudySessions/Cancel": {
+      "post": {
+        "tags": [
+          "StudySessions"
+        ],
+        "summary": " (Auth)",
+        "operationId": "StudySessions_CancelSessions",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/StudySessionCancelInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/TestTools/GenerateBearerToken": {
+      "get": {
+        "tags": [
+          "TestTools"
+        ],
+        "operationId": "TestTools_GenerateBearerToken",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Email",
+            "description": "Gets or sets the email address.",
+            "required": true,
+            "type": "string",
+            "format": "email",
+            "maxLength": 254,
+            "minLength": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TokenModel"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/TestTools/PreviewEmailNotifications": {
+      "post": {
+        "tags": [
+          "TestTools"
+        ],
+        "summary": " (Auth)",
+        "operationId": "TestTools_PreviewEmailNotifications",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/PreviewEmailNotificationsInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TokenModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Timetable": {
+      "get": {
+        "tags": [
+          "Timetable"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Timetable_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AvailableTimetablesModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Timetable/ActiveAcademicPeriod": {
+      "get": {
+        "tags": [
+          "Timetable"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Timetable_GetActiveAcademicPeriod",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AcademicPeriodInfo"
+            }
+          }
+        }
+      }
+    },
+    "/api/Tutors/page/{pageNumber}": {
+      "get": {
+        "tags": [
+          "Tutors"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Tutors_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pageNumber",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "SortBy"
+          },
+          {
+            "in": "query",
+            "name": "Order"
+          },
+          {
+            "in": "query",
+            "name": "AvailableCourseIds.Contains",
+            "required": true,
+            "type": "array",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "QuickSearch.Contains",
+            "description": "Gets or sets the pattern, that text should contain.",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TutorRowModelPagedListModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/UniversitySettings": {
+      "get": {
+        "tags": [
+          "UniversitySettings"
+        ],
+        "summary": " (Auth)",
+        "operationId": "UniversitySettings_Find",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UniversitySettingsModel"
+            }
+          },
+          "204": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "UniversitySettings"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_UNIVERSITY_SETTINGS)",
+        "operationId": "UniversitySettings_Create",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UniversitySettingsInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UniversitySettingsModel"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "UniversitySettings"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_UNIVERSITY_SETTINGS)",
+        "operationId": "UniversitySettings_Update",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UniversitySettingsUpdateInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UniversitySettingsModel"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{id}/userInfo": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Users_GetUserInfo",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserInfoModel"
+            }
+          },
+          "204": {
+            "description": "Success"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_USERS)",
+        "operationId": "Users_UpdateUserInfo",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UpdateUserInfoInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserDetailsModel"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{id}/avatar": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_FindAvatar",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "Token",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "MinimumSize",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "maximum": 2147483647,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "304": {
+            "description": "Not Modified"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_USERS)",
+        "operationId": "Users_UpdateAvatar",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "formData",
+            "name": "file",
+            "type": "file",
+            "format": "binary"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_USERS)",
+        "operationId": "Users_Add",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/AddUserInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{id}/sendEmail": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Users_SendEmail",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/EmailMessageInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/sendEmail": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Users_SendBulkEmail",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/SendBulkEmailInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/{id}/details": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Users_GetDetails",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserDetailsModel"
+            }
+          },
+          "204": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/{id}": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_USERS)",
+        "operationId": "Users_Update",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UpdateUserInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserDetailsModel"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{id}/timetable": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Users_GetStudentTimetable",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StudentTimetableModel"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_USERS)",
+        "operationId": "Users_UploadTimetable",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/StudentTimetableInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StudentTimetableModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{id}/studentInfo": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Users_GetStudentInfo",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StudentInfoModel"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_USERS)",
+        "operationId": "Users_UpdateStudentInfo",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/StudentInfoInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StudentInfoModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{id}/leaderInfo": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Users_GetLeaderInfo",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LeaderInfoModel"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_USERS)",
+        "operationId": "Users_UpdateLeaderInfo",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/LeaderInfoInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/LeaderInfoModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{id}/leadingStatus": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_USERS)",
+        "operationId": "Users_ChangeLeadingStatus",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ChangeLeadingStatusInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserInfoModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/page/{pageNumber}/students": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Users_GetStudents",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pageNumber",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "SortBy"
+          },
+          {
+            "in": "query",
+            "name": "Order"
+          },
+          {
+            "in": "query",
+            "name": "StudyGroupCourseIds.Contains",
+            "required": true,
+            "type": "array",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "GroupRequestCourseIds.Contains",
+            "required": true,
+            "type": "array",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "QuickSearch.Contains",
+            "description": "Gets or sets the pattern, that text should contain.",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "IsInactive",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StudentRowModelPagedListModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{id}/tutorInfo": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Users_GetTutorInfo",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TutorInfoModel"
+            }
+          },
+          "204": {
+            "description": "Success"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_USERS)",
+        "operationId": "Users_UpdateTutorInfo",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/TutorInfoInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TutorInfoModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{id}/tutoringStatus": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": " (Auth policies: CAN_EDIT_USERS)",
+        "operationId": "Users_ChangeTutoringStatus",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ChangeTutoringStatusInputModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TutorInfoModel"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AcademicPeriodInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "startDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "endDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "AddAdminInputModel": {
+      "required": [
+        "email",
+        "firstName",
+        "lastName"
+      ],
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "pattern": "[\\p{L} -]+",
+          "type": "string"
+        },
+        "lastName": {
+          "pattern": "[\\p{L} -]+",
+          "type": "string"
+        },
+        "email": {
+          "format": "email",
+          "maxLength": 254,
+          "type": "string"
+        }
+      }
+    },
+    "AddApplicationSettingInputModel": {
+      "required": [
+        "kind",
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/SettingKind"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "AddUserInputModel": {
+      "required": [
+        "email",
+        "firstName",
+        "lastName",
+        "tutoringStatus"
+      ],
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "pattern": "[\\p{L} -]+",
+          "type": "string"
+        },
+        "lastName": {
+          "pattern": "[\\p{L} -]+",
+          "type": "string"
+        },
+        "email": {
+          "format": "email",
+          "maxLength": 254,
+          "type": "string"
+        },
+        "dateOfBirth": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "socialSecurityNumber": {
+          "type": "string"
+        },
+        "tutoringStatus": {
+          "$ref": "#/definitions/TutoringStatus"
+        }
+      }
+    },
+    "AdminAccessRightsInputModel": {
+      "type": "object",
+      "properties": {
+        "canEditUsers": {
+          "type": "boolean"
+        },
+        "canDeactivateUsers": {
+          "type": "boolean"
+        },
+        "canEditCourses": {
+          "type": "boolean"
+        },
+        "canDeleteCourses": {
+          "type": "boolean"
+        },
+        "canAddPrepaidUniversityBalance": {
+          "type": "boolean"
+        },
+        "canAddPrepaidCustomerServiceBalance": {
+          "type": "boolean"
+        },
+        "canChangeTutoringStatus": {
+          "type": "boolean"
+        },
+        "canEditUniversitySettings": {
+          "type": "boolean"
+        },
+        "canAddStudyGroups": {
+          "type": "boolean"
+        },
+        "canEditStudyGroups": {
+          "type": "boolean"
+        },
+        "canSuspendStudyGroups": {
+          "type": "boolean"
+        }
+      }
+    },
+    "AdminAccessRightsModel": {
+      "required": [
+        "adminUserId",
+        "canAddPrepaidCustomerServiceBalance",
+        "canAddPrepaidUniversityBalance",
+        "canAddStudyGroups",
+        "canChangeTutoringStatus",
+        "canDeactivateUsers",
+        "canDeleteCourses",
+        "canEditCourses",
+        "canEditStudyGroups",
+        "canEditUniversitySettings",
+        "canEditUsers",
+        "canSuspendStudyGroups"
+      ],
+      "type": "object",
+      "properties": {
+        "adminUserId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "canEditUsers": {
+          "type": "boolean"
+        },
+        "canDeactivateUsers": {
+          "type": "boolean"
+        },
+        "canEditCourses": {
+          "type": "boolean"
+        },
+        "canDeleteCourses": {
+          "type": "boolean"
+        },
+        "canAddPrepaidUniversityBalance": {
+          "type": "boolean"
+        },
+        "canAddPrepaidCustomerServiceBalance": {
+          "type": "boolean"
+        },
+        "canChangeTutoringStatus": {
+          "type": "boolean"
+        },
+        "canEditUniversitySettings": {
+          "type": "boolean"
+        },
+        "canAddStudyGroups": {
+          "type": "boolean"
+        },
+        "canEditStudyGroups": {
+          "type": "boolean"
+        },
+        "canSuspendStudyGroups": {
+          "type": "boolean"
+        }
+      }
+    },
+    "AdminRowModel": {
+      "description": "Represents the administrator on the platform.",
+      "required": [
+        "email",
+        "firstName",
+        "id",
+        "isRoot",
+        "lastName"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the unique identifier of entity.",
+          "type": "integer"
+        },
+        "firstName": {
+          "description": "Gets or sets the first name of the admin.",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "Gets or sets the last name of the admin.",
+          "type": "string"
+        },
+        "email": {
+          "description": "Gets or sets the email of the admin.",
+          "type": "string"
+        },
+        "isRoot": {
+          "description": "Gets or sets a value indicating whether the admin is a root.",
+          "type": "boolean"
+        }
+      }
+    },
+    "AdminRowModelPagedListModel": {
+      "required": [
+        "hasMorePages",
+        "items",
+        "pageNumber",
+        "totalItemsCount"
+      ],
+      "type": "object",
+      "properties": {
+        "totalItemsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdminRowModel"
+          }
+        }
+      }
+    },
+    "AdminSortBy": {
+      "enum": [
+        "FullName",
+        "Email"
+      ],
+      "type": "string"
+    },
+    "ApplicationSettingRowModel": {
+      "required": [
+        "effectiveDateTimeUtc",
+        "id",
+        "kind",
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the unique identifier of entity.",
+          "type": "integer"
+        },
+        "kind": {
+          "$ref": "#/definitions/SettingKind"
+        },
+        "value": {
+          "type": "string"
+        },
+        "effectiveDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "ApplicationSettingRowModelPagedListModel": {
+      "required": [
+        "hasMorePages",
+        "items",
+        "pageNumber",
+        "totalItemsCount"
+      ],
+      "type": "object",
+      "properties": {
+        "totalItemsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationSettingRowModel"
+          }
+        }
+      }
+    },
+    "AppointmentGroupInputModel": {
+      "required": [
+        "appointmentTimetables",
+        "courseIds",
+        "tutorUserIds"
+      ],
+      "type": "object",
+      "properties": {
+        "courseIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "tutorUserIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "appointmentTimetables": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AppointmentTimetableInputModel"
+          }
+        }
+      }
+    },
+    "AppointmentGroupShortModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "AppointmentTimetableInputModel": {
+      "required": [
+        "durationMinutes",
+        "startTimeUtc",
+        "timetableId"
+      ],
+      "type": "object",
+      "properties": {
+        "timetableId": {
+          "format": "int32",
+          "maximum": 2147483647,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "locationId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "durationMinutes": {
+          "format": "int32",
+          "maximum": 2147483647,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "startTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "AttendanceReportInputModel": {
+      "required": [
+        "academicPeriodId",
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "academicPeriodId": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "AvailabilityModel": {
+      "required": [
+        "timeSlotNumbers",
+        "weekDays"
+      ],
+      "type": "object",
+      "properties": {
+        "weekDays": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DayOfWeek"
+          }
+        },
+        "timeSlotNumbers": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "AvailableLeadersModel": {
+      "required": [
+        "leaders"
+      ],
+      "type": "object",
+      "properties": {
+        "leaders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LeaderUserModel"
+          }
+        }
+      }
+    },
+    "AvailableTimeSlotModel": {
+      "required": [
+        "endTimeUtc",
+        "isTechnical",
+        "number",
+        "startTimeUtc"
+      ],
+      "type": "object",
+      "properties": {
+        "number": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "startTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "endTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "isTechnical": {
+          "type": "boolean"
+        }
+      }
+    },
+    "AvailableTimetableModel": {
+      "required": [
+        "id",
+        "timeSlots",
+        "weekDays",
+        "weekDaysKey"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "weekDays": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DayOfWeek"
+          }
+        },
+        "timeSlots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AvailableTimeSlotModel"
+          }
+        },
+        "weekDaysKey": {
+          "$ref": "#/definitions/WeekDaysKey"
+        }
+      }
+    },
+    "AvailableTimetablesModel": {
+      "required": [
+        "timetableSlots"
+      ],
+      "type": "object",
+      "properties": {
+        "timetableSlots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AvailableTimetableModel"
+          }
+        }
+      }
+    },
+    "BookingTimetableModel": {
+      "required": [
+        "id",
+        "timeSlots"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "timeSlots": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "ChangeLeadingStatusInputModel": {
+      "required": [
+        "leadingStatus"
+      ],
+      "type": "object",
+      "properties": {
+        "leadingStatus": {
+          "$ref": "#/definitions/LeadingStatus"
+        }
+      }
+    },
+    "ChangeTutoringStatusInputModel": {
+      "required": [
+        "isTutor"
+      ],
+      "type": "object",
+      "properties": {
+        "isTutor": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CourseAcademicMeetingModel": {
+      "type": "object",
+      "properties": {
+        "meetingStartTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "meetingEndTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "startDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "endDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "isOnMondays": {
+          "type": "boolean"
+        },
+        "isOnTuesdays": {
+          "type": "boolean"
+        },
+        "isOnWednesdays": {
+          "type": "boolean"
+        },
+        "isOnThursdays": {
+          "type": "boolean"
+        },
+        "isOnFridays": {
+          "type": "boolean"
+        },
+        "isOnSaturdays": {
+          "type": "boolean"
+        },
+        "isOnSundays": {
+          "type": "boolean"
+        },
+        "classNBR": {
+          "type": "string"
+        },
+        "academicPeriodName": {
+          "type": "string"
+        },
+        "courseName": {
+          "type": "string"
+        }
+      }
+    },
+    "CourseAcademicMeetingsImport": {
+      "type": "object",
+      "properties": {
+        "models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseAcademicMeetingModel"
+          }
+        }
+      }
+    },
+    "CourseListInputModel": {
+      "required": [
+        "courses"
+      ],
+      "type": "object",
+      "properties": {
+        "courses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseModel"
+          }
+        }
+      }
+    },
+    "CourseModel": {
+      "required": [
+        "shortName"
+      ],
+      "type": "object",
+      "properties": {
+        "shortName": {
+          "type": "string"
+        },
+        "detailedName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "CourseRowModel": {
+      "description": "Represents course that is taught at the university.",
+      "required": [
+        "id",
+        "leadersCount",
+        "studyGroups",
+        "title"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the unique identifier of entity.",
+          "type": "integer"
+        },
+        "title": {
+          "description": "Gets or sets the course title.",
+          "type": "string"
+        },
+        "leadersCount": {
+          "format": "int32",
+          "description": "Gets or sets the count of tutors currently allowed to tutor this course.",
+          "type": "integer"
+        },
+        "studyGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudyGroupShortModel"
+          }
+        }
+      }
+    },
+    "CourseRowModelPagedListModel": {
+      "required": [
+        "hasMorePages",
+        "items",
+        "pageNumber",
+        "totalItemsCount"
+      ],
+      "type": "object",
+      "properties": {
+        "totalItemsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseRowModel"
+          }
+        }
+      }
+    },
+    "CourseShortModel": {
+      "required": [
+        "id",
+        "shortName"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "shortName": {
+          "type": "string"
+        }
+      }
+    },
+    "CourseSortBy": {
+      "enum": [
+        "Title",
+        "GroupsCount",
+        "LeadersCount"
+      ],
+      "type": "string"
+    },
+    "CourseTitle": {
+      "required": [
+        "integrationAcademicPeriodName",
+        "shortName"
+      ],
+      "type": "object",
+      "properties": {
+        "shortName": {
+          "maxLength": 32,
+          "type": "string"
+        },
+        "detailedName": {
+          "maxLength": 254,
+          "type": "string"
+        },
+        "integrationAcademicPeriodName": {
+          "type": "string"
+        }
+      }
+    },
+    "CourseTitlesInputModel": {
+      "required": [
+        "titles"
+      ],
+      "type": "object",
+      "properties": {
+        "titles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseTitle"
+          }
+        }
+      }
+    },
+    "DateOfBirthUpdateModel": {
+      "type": "object",
+      "properties": {
+        "dateOfBirth": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "DayOfWeek":
+    {
+      "enum": [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "type": "string"
+    },
+    "EmailInputModel": {
+      "description": "Represents the email properties.",
+      "required": [
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "format": "email",
+          "description": "Gets or sets the email address.",
+          "maxLength": 254,
+          "minLength": 0,
+          "type": "string"
+        }
+      }
+    },
+    "EmailMessageInputModel": {
+      "description": "The model is responsible for email messages are sent to a student by an admin.",
+      "required": [
+        "body",
+        "subject"
+      ],
+      "type": "object",
+      "properties": {
+        "subject": {
+          "description": "Gets or sets the subject of the email message.",
+          "maxLength": 80,
+          "type": "string"
+        },
+        "body": {
+          "description": "Gets or sets the body of the email message.",
+          "maxLength": 10000,
+          "type": "string"
+        }
+      }
+    },
+    "EnquiryRowModel": {
+      "required": [
+        "courses",
+        "id",
+        "isAvailability",
+        "student",
+        "timetableSlots"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the unique identifier of entity.",
+          "type": "integer"
+        },
+        "courses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        },
+        "student": {
+          "$ref": "#/definitions/StudentUserModel"
+        },
+        "isAvailability": {
+          "type": "boolean"
+        },
+        "timetableSlots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AvailableTimetableModel"
+          }
+        }
+      }
+    },
+    "EnquiryRowModelPagedListModel": {
+      "required": [
+        "hasMorePages",
+        "items",
+        "pageNumber",
+        "totalItemsCount"
+      ],
+      "type": "object",
+      "properties": {
+        "totalItemsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EnquiryRowModel"
+          }
+        }
+      }
+    },
+    "EnquirySortBy": {
+      "enum": [
+        "FullName"
+      ],
+      "type": "string"
+    },
+    "ErrorCode": {
+      "enum": [
+        "NoSuchUser",
+        "InvalidAuthenticationToken",
+        "UserDidNotAcceptAllAgreements",
+        "UserHasNoStudentCourses",
+        "UserEmailNotSpecified",
+        "UserNameNotSpecified",
+        "UserRoleNotSpecified",
+        "SuspiciousRefreshToken",
+        "AccessTokenIsInvalid",
+        "RefreshTokenIsInvalid",
+        "RequestUpdateByNonInitiator",
+        "RequestNewLocationIsSameAsExisting",
+        "RequestIsAlreadyOfTypeGroup",
+        "RequestIsAlreadyCancelled",
+        "RequestIsAlreadyAcceptedByTutor",
+        "RequestAcceptByInitiator",
+        "RequestCourseIsNotAvailableForTutor",
+        "RequestIsAlreadyBroadcast",
+        "RequestIsCancelled",
+        "RequestWasNotAcceptedByTutor",
+        "RequestIsNotFound",
+        "RequestHasNoTutor",
+        "RequestCourseIsNotAvailableForStudent",
+        "RequestHasNoVacantSlots",
+        "RequestAcceptWhenActiveRequestExistsIsNotAllowed",
+        "RequestCancelAttemptAfterSessionStart",
+        "RequestCreateOrJoinWhenActiveRequestExistsIsNotAllowed",
+        "RequestCreateOrJoinWhenBalanceIsNegativeIsNotAllowed",
+        "RequestCreateOrJoinWhenBalanceIsRunningLowIsNotAllowed",
+        "RequestLocationCannotBeChangedIfRequestIsDigital",
+        "RequestLocationMustBePresentIfRequestIsNonDigital",
+        "RequestLocationMustBeAbsentIfRequestIsDigital",
+        "RequestCreateWhenUpcomingRequestsLimitIsReachedAndHaveActiveRequestIsNotAllowed",
+        "RequestCreateOrJoinWhenUpcomingRequestsLimitIsReachedIsNotAllowed",
+        "RequestNewLocationNotFound",
+        "BroadcastIsNotFound",
+        "BroadcastAbandonAttemptAfterSessionStart",
+        "RequestCannotBeScheduledTooFarInAdvance",
+        "RequestCannotBeScheduledTooCloseToItsStart",
+        "RequestCannotBeScheduledForTheSameTimeAsExisting",
+        "SessionIsNotFound",
+        "SessionInteractionByInitiatorOrTutorOnly",
+        "SessionIsFinished",
+        "SessionEventIsRedundant",
+        "SessionEventIsInvalid",
+        "SessionEventAlreadyTimedOut",
+        "SessionEventToDeclineIsNotFound",
+        "SessionIsNotOfTypeGroup",
+        "SessionIsNotOfTypeSolo",
+        "SessionAccessToSessionMembersOnly",
+        "SessionIsNotFinishedYet",
+        "SessionIsAlreadyRated",
+        "SessionIsNotDigital",
+        "SessionIsPaused",
+        "SessionCannotBeStartedTooAheadOfSchedule",
+        "SessionCannotBeStartedWhenUserHasActiveRequest",
+        "SessionIsCanceled",
+        "AppointmentWasNotFound",
+        "AppointmentWasAlreadyBookedbyAnotherStudent",
+        "AppointmentWasAlreadyBookedByCurrentStudent",
+        "AppointmentIsLateToBook",
+        "AppointmentIsLateToCancel",
+        "AppointmentWasNotBookedByStudent",
+        "DigitalSessionVirtualSpaceCouldNotBeCreated",
+        "ChatMessagesAreReadOnly",
+        "PushNotificationRequestTypeIsNotRegistered",
+        "PushNotificationTokenIsInvalid",
+        "PushNotificationTokenAlreadyExists",
+        "StripeError",
+        "PaymentMethodCreditCardAlreadyExists",
+        "PaymentMethodCustomerDoesNotExist",
+        "PaymentMethodTutorIsNotContractor",
+        "PaymentMethodTutorDidNotAcceptStripeConnectAccountAgreement",
+        "PaymentMethodBankAccountAlreadyExists",
+        "PaymentMethodConnectedAccountDoesNotExist",
+        "WithdrawUserIsNotTutor",
+        "WithdrawTutorIsNotContractor",
+        "WithdrawBankAccountDoesNotExist",
+        "WithdrawMinimumIntervalNotPassedSinceLastWithdrawal",
+        "WithdrawAmountIsLessThanMinimumWithdrawable",
+        "WithdrawAmountExceedsWithdrawableBalance",
+        "WithdrawBankAccountIsErrored",
+        "DebtCouldNotBeProcessedFromCreditCard",
+        "ZoomLinkIsInvalid",
+        "EnquiryTimeIsInvalid",
+        "LinkIsNotFound",
+        "AcademicPeriodIsOver",
+        "ZoomCodeIsInvalid",
+        "StudyGroupIsNotFound",
+        "StudyGroupIsFull",
+        "StudyGroupTooManySwitches",
+        "StudyGroupEnrollingPeriodIsOver",
+        "StudyGroupTimeIsNotAvailableForStudent",
+        "StudentIsNotEnrolledInStudyGroup",
+        "AvatarMustBePngOrJpgFormat",
+        "AvatarMustBeSquareShaped",
+        "AvatarDimensionMustBeSpecifiedSizeOrBigger",
+        "AvatarFileSizeMustBeUpToSpecifiedLimit",
+        "AvatarMustNotBeNullOrEmpty",
+        "AvatarCouldNotBeDecodedFromBase64",
+        "AdminCouldNotFindSuchUser",
+        "AdminUserIsRootAdmin",
+        "AdminCouldNotFindSuchLeader",
+        "AdminCouldNotFindSuchTutor",
+        "AdminTutorAlreadyExists",
+        "AdminUniversitySettingsDoNotExist",
+        "AdminUniversitySettingsAlreadyExist",
+        "AdminEmailIsAlreadyUsedByExistingUser",
+        "AdminDateOfBirthIsRequiredForContractorTutors",
+        "AdminSocialSecurityNumberIsRequiredForContractorTutors",
+        "AdminDateOfBirthAndSocialSecurityNumberAreRequiredForContractorTutors",
+        "AdminCouldNotFindSuchCourse",
+        "AdminCourseWithSuchTitleAlreadyExists",
+        "AdminEllucianIntegrationFailed",
+        "AdminCourseIsNotAvailableForLeader",
+        "AdminAcademicPeriodIsNotDefined",
+        "AdminTimeIsNotAvailableForLeader",
+        "AdminStudyGroupDoesNotHaveAnySessions",
+        "AdminStudyGroupCreationPeriodIsOver",
+        "AdminStudyGroupStudentsCountExceedsCapacity",
+        "AdminStudentIsEnrolledToTheCourse",
+        "AdminStudentIsEligibleToLeadTheCourse",
+        "AdminLeaderHasGroupsOverLimit",
+        "AdminStudentHasEnquiryToTheCourse",
+        "AdminLeaderHasGroupInTheCourse",
+        "AdminCourseIsNotEligibleForLeader",
+        "AdminLeaderHasActiveGroups",
+        "AdminZoomSettingsCouldNotBeEmpty",
+        "AdminLocationIsAlreadyExists",
+        "AdminLocationIsNotFound",
+        "AdminTimeSlotIsNotFound",
+        "AdminImportAcademicPeriodNotFound",
+        "AdminImportIncompleteAcademicPeriodsNotFound"
+      ],
+      "type": "string"
+    },
+    "ErrorMetadataModel": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "courseShortName": {
+          "type": "string"
+        },
+        "upcomingRequestsLimit": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "ErrorModel": {
+      "required": [
+        "error",
+        "errorCode"
+      ],
+      "type": "object",
+      "properties": {
+        "errorCode": {
+          "$ref": "#/definitions/ErrorCode"
+        },
+        "error": {
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/ErrorMetadataModel"
+        }
+      }
+    },
+    "GetMagicLinkSuccessResultModel": {
+      "description": "Represents the success magic link response.",
+      "required": [
+        "retryAfterSeconds",
+        "success"
+      ],
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "retryAfterSeconds": {
+          "format": "int32",
+          "description": "Gets the magic link request timeout in seconds.",
+          "type": "integer"
+        }
+      }
+    },
+    "LeaderAvailabilityInputModel": {
+      "required": [
+        "leaderAvailabilities"
+      ],
+      "type": "object",
+      "properties": {
+        "leaderAvailabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LeaderAvailabilityModel"
+          }
+        }
+      }
+    },
+    "LeaderAvailabilityModel": {
+      "required": [
+        "availabilitySlots",
+        "courseTitles",
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "courseTitles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "availabilitySlots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AvailabilityModel"
+          }
+        }
+      }
+    },
+    "LeaderInfoInputModel": {
+      "type": "object",
+      "properties": {
+        "studyGroupsLimit": {
+          "type": "integer"
+        },
+        "personalLink": {
+          "type": "string"
+        },
+        "zoomPassCode": {
+          "type": "string"
+        },
+        "eligibleCourseIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "availableCourseIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "LeaderInfoModel": {
+      "type": "object",
+      "properties": {
+        "studyGroupsLimit": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "personalLink": {
+          "type": "string"
+        },
+        "zoomPassCode": {
+          "type": "string"
+        },
+        "eligibleCourses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        },
+        "availableCourses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        },
+        "studyGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudyGroupItemModel"
+          }
+        }
+      }
+    },
+    "LeaderRowModel": {
+      "required": [
+        "availableCourses",
+        "eligibleCourses",
+        "firstName",
+        "id",
+        "isInactive",
+        "lastName",
+        "meetingsCount",
+        "studyGroups"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the unique identifier of entity.",
+          "type": "integer"
+        },
+        "firstName": {
+          "description": "Gets or sets the first name of the user.",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "Gets or sets the last name of the user.",
+          "type": "string"
+        },
+        "isInactive": {
+          "type": "boolean"
+        },
+        "studyGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudyGroupShortModel"
+          }
+        },
+        "availableCourses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        },
+        "eligibleCourses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        },
+        "meetingsCount": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "LeaderRowModelPagedListModel": {
+      "required": [
+        "hasMorePages",
+        "items",
+        "pageNumber",
+        "totalItemsCount"
+      ],
+      "type": "object",
+      "properties": {
+        "totalItemsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LeaderRowModel"
+          }
+        }
+      }
+    },
+    "LeaderSortBy": {
+      "enum": [
+        "GroupsCount",
+        "FullName"
+      ],
+      "type": "string"
+    },
+    "LeaderUserModel": {
+      "required": [
+        "firstName",
+        "id",
+        "lastName"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "rating": {
+          "format": "double",
+          "type": "number"
+        }
+      }
+    },
+    "LeadingStatus": {
+      "description": "Represents the user status of the leading.",
+      "enum": [
+        "Student",
+        "Leader"
+      ],
+      "type": "string"
+    },
+    "LocationAddInputModel": {
+      "description": "Represents the location creating input parameters.",
+      "required": [
+        "capacity",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Gets or sets the name of a location.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "capacity": {
+          "format": "int32",
+          "description": "Gets or sets the capacity of a location.",
+          "maximum": 2147483647,
+          "minimum": 0,
+          "type": "integer"
+        }
+      }
+    },
+    "LocationModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "location": {
+          "type": "string"
+        },
+        "capacity": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "isActive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "LocationRowModel": {
+      "required": [
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the unique identifier of entity.",
+          "type": "integer"
+        },
+        "location": {
+          "description": "Gets or sets the name of the location.",
+          "type": "string"
+        },
+        "capacity": {
+          "format": "int32",
+          "description": "Gets or sets the capacity of the location.",
+          "type": "integer"
+        },
+        "isActive": {
+          "description": "Gets or sets a value indicating whether the location is active.",
+          "type": "boolean"
+        }
+      }
+    },
+    "LocationRowModelPagedListModel": {
+      "required": [
+        "hasMorePages",
+        "items",
+        "pageNumber",
+        "totalItemsCount"
+      ],
+      "type": "object",
+      "properties": {
+        "totalItemsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocationRowModel"
+          }
+        }
+      }
+    },
+    "LocationShortModel": {
+      "description": "Represent location base fields",
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets location id",
+          "type": "integer"
+        },
+        "name": {
+          "description": "Gets or sets location name",
+          "type": "string"
+        }
+      }
+    },
+    "LocationSortBy": {
+      "enum": [
+        "Location",
+        "Capacity"
+      ],
+      "type": "string"
+    },
+    "LocationStatusInputModel": {
+      "required": [
+        "shouldBeActive"
+      ],
+      "type": "object",
+      "properties": {
+        "shouldBeActive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "LocationUpdateInputModel": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string"
+        },
+        "capacity": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "PreviewEmailNotificationsInputModel": {
+      "required": [
+        "studentUserId",
+        "studyGroupId"
+      ],
+      "type": "object",
+      "properties": {
+        "studentUserId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "studyGroupId": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "ProblemDetails": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "instance": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": { }
+    },
+    "RefreshTokenInputModel": {
+      "required": [
+        "accessToken",
+        "refreshToken"
+      ],
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "refreshToken": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "SendBulkEmailInputModel": {
+      "required": [
+        "body",
+        "subject",
+        "userIds"
+      ],
+      "type": "object",
+      "properties": {
+        "userIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "subject": {
+          "maxLength": 80,
+          "type": "string"
+        },
+        "body": {
+          "maxLength": 10000,
+          "type": "string"
+        }
+      }
+    },
+    "SettingKind": {
+      "enum": [
+        "SessionMinuteCostCents",
+        "MinimumSessionDurationMinutes",
+        "TeduCommissionRate"
+      ],
+      "type": "string"
+    },
+    "SocialSecurityNumberUpdateModel": {
+      "type": "object",
+      "properties": {
+        "socialSecurityNumber": {
+          "type": "string"
+        }
+      }
+    },
+    "SortOrder": {
+      "enum": [
+        "Ascending",
+        "Descending"
+      ],
+      "type": "string"
+    },
+    "StudentEmailsInputModel": {
+      "required": [
+        "emails"
+      ],
+      "type": "object",
+      "properties": {
+        "emails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "StudentInfoInputModel": {
+      "type": "object",
+      "properties": {
+        "enquiryCourseIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "studentCourseIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "StudentInfoModel": {
+      "type": "object",
+      "properties": {
+        "attendedSessionCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "studentCourses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        },
+        "enquiriedCourses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        },
+        "studyGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudyGroupItemModel"
+          }
+        }
+      }
+    },
+    "StudentListInputModel": {
+      "required": [
+        "students"
+      ],
+      "type": "object",
+      "properties": {
+        "students": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudentModel"
+          }
+        }
+      }
+    },
+    "StudentModel": {
+      "required": [
+        "email",
+        "firstName",
+        "lastName"
+      ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "oldEmail": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "dateOfBirth": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "integrationUserId": {
+          "type": "string"
+        },
+        "studentCourseTitles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseTitle"
+          }
+        },
+        "tutorCourseTitles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseTitle"
+          }
+        },
+        "leaderCourseTitles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseTitle"
+          }
+        }
+      }
+    },
+    "StudentRowModel": {
+      "required": [
+        "courses",
+        "firstName",
+        "groupRequests",
+        "id",
+        "isInactive",
+        "lastName",
+        "sessionsCount",
+        "studyGroups"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the unique identifier of entity.",
+          "type": "integer"
+        },
+        "firstName": {
+          "description": "Gets or sets the first name of the user.",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "Gets or sets the last name of the user.",
+          "type": "string"
+        },
+        "isInactive": {
+          "type": "boolean"
+        },
+        "studyGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudyGroupShortModel"
+          }
+        },
+        "groupRequests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        },
+        "courses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        },
+        "sessionsCount": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "StudentRowModelPagedListModel": {
+      "required": [
+        "hasMorePages",
+        "items",
+        "pageNumber",
+        "totalItemsCount"
+      ],
+      "type": "object",
+      "properties": {
+        "totalItemsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudentRowModel"
+          }
+        }
+      }
+    },
+    "StudentSortBy": {
+      "enum": [
+        "SessionsCount",
+        "FullName"
+      ],
+      "type": "string"
+    },
+    "StudentTimetableInputModel": {
+      "required": [
+        "timetables"
+      ],
+      "type": "object",
+      "properties": {
+        "timetables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BookingTimetableModel"
+          }
+        }
+      }
+    },
+    "StudentTimetableModel": {
+      "required": [
+        "timetables"
+      ],
+      "type": "object",
+      "properties": {
+        "timetables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimetableModel"
+          }
+        }
+      }
+    },
+    "StudentUserModel": {
+      "required": [
+        "firstName",
+        "id",
+        "lastName"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      }
+    },
+    "StudyGroupAddInputModel": {
+      "required": [
+        "courseIds",
+        "leaderId",
+        "studyGroupTimetables"
+      ],
+      "type": "object",
+      "properties": {
+        "courseIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "leaderId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "studyGroupTimetables": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudyGroupTimetableInputModel"
+          }
+        }
+      }
+    },
+    "StudyGroupEnrollmentInputModel": {
+      "required": [
+        "studentUserIds"
+      ],
+      "type": "object",
+      "properties": {
+        "studentUserIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "StudyGroupItemModel": {
+      "required": [
+        "detailedTitle",
+        "id",
+        "timetables",
+        "title"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "detailedTitle": {
+          "type": "string"
+        },
+        "timetables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudyGroupTimetableItem"
+          }
+        }
+      }
+    },
+    "StudyGroupLeaderInputModel": {
+      "required": [
+        "leaderUserId"
+      ],
+      "type": "object",
+      "properties": {
+        "leaderUserId": {
+          "format": "int32",
+          "maximum": 2147483647,
+          "minimum": 1,
+          "type": "integer"
+        }
+      }
+    },
+    "StudyGroupModel": {
+      "required": [
+        "capacity",
+        "courseId",
+        "courseName",
+        "courses",
+        "id",
+        "instructors",
+        "isActive",
+        "isSuspended",
+        "leader",
+        "quarterTitle",
+        "sessions",
+        "students",
+        "studyGroupTimetables",
+        "studyGroupType",
+        "title"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "studyGroupType": {
+          "$ref": "#/definitions/StudyGroupType"
+        },
+        "title": {
+          "type": "string"
+        },
+        "courseName": {
+          "type": "string"
+        },
+        "courseId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "students": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudentUserModel"
+          }
+        },
+        "quarterTitle": {
+          "type": "string"
+        },
+        "leader": {
+          "$ref": "#/definitions/LeaderUserModel"
+        },
+        "sessions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudyGroupSessionModel"
+          }
+        },
+        "studyGroupTimetables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudyGroupTimetableItem"
+          }
+        },
+        "capacity": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "isSuspended": {
+          "type": "boolean"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "courses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        },
+        "instructors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudentUserModel"
+          }
+        }
+      }
+    },
+    "StudyGroupRowModel": {
+      "required": [
+        "capacity",
+        "completedSessionsCount",
+        "courseId",
+        "courseName",
+        "endTimeUtc",
+        "id",
+        "isSuspended",
+        "leader",
+        "quarterTitle",
+        "startTimeUtc",
+        "studentsCount",
+        "title",
+        "totalSessionsCount",
+        "weekDays"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the unique identifier of entity.",
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "courseName": {
+          "type": "string"
+        },
+        "courseId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "studentsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "weekDays": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DayOfWeek"
+          }
+        },
+        "quarterTitle": {
+          "type": "string"
+        },
+        "leader": {
+          "$ref": "#/definitions/LeaderUserModel"
+        },
+        "startTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "endTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "totalSessionsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "completedSessionsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "capacity": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "isSuspended": {
+          "type": "boolean"
+        },
+        "location": {
+          "type": "string"
+        }
+      }
+    },
+    "StudyGroupRowModelPagedListModel": {
+      "required": [
+        "hasMorePages",
+        "items",
+        "pageNumber",
+        "totalItemsCount"
+      ],
+      "type": "object",
+      "properties": {
+        "totalItemsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudyGroupRowModel"
+          }
+        }
+      }
+    },
+    "StudyGroupSessionModel": {
+      "required": [
+        "id",
+        "isCancelled",
+        "isCompleted",
+        "leader",
+        "scheduleDateTimeUtc",
+        "studentsCount",
+        "title"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets study session id",
+          "type": "integer"
+        },
+        "title": {
+          "description": "Gets or sets study session title",
+          "type": "string"
+        },
+        "scheduleDateTimeUtc": {
+          "format": "date-time",
+          "description": "Gets or sets study session start time",
+          "type": "string"
+        },
+        "leader": {
+          "$ref": "#/definitions/LeaderUserModel"
+        },
+        "studentsCount": {
+          "format": "int32",
+          "description": "Gets or sets\r\nenrolled student count for future sessions\r\nor attended student count for passed sessions",
+          "type": "integer"
+        },
+        "isCompleted": {
+          "description": "Gets or sets a value indicating whether session is over",
+          "type": "boolean"
+        },
+        "isCancelled": {
+          "description": "Gets or sets a value indicating whether session ws cancelled",
+          "type": "boolean"
+        },
+        "rating": {
+          "format": "double",
+          "type": "number"
+        }
+      }
+    },
+    "StudyGroupShortModel": {
+      "required": [
+        "detailedTitle",
+        "id",
+        "title"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "detailedTitle": {
+          "type": "string"
+        }
+      }
+    },
+    "StudyGroupSortBy": {
+      "enum": [
+        "Title",
+        "CompletedSessionsCount"
+      ],
+      "type": "string"
+    },
+    "StudyGroupTimetableInputModel": {
+      "required": [
+        "durationMinutes",
+        "startTimeUtc",
+        "timetableId"
+      ],
+      "type": "object",
+      "properties": {
+        "timetableId": {
+          "format": "int32",
+          "description": "Gets or sets the timetable identifier.",
+          "maximum": 2147483647,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "locationId": {
+          "format": "int32",
+          "description": "Gets or sets the location identifier.\r\nNull value if digital.",
+          "type": "integer"
+        },
+        "durationMinutes": {
+          "format": "int32",
+          "description": "Gets or sets the duration in minutes.",
+          "maximum": 2147483647,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "startTimeUtc": {
+          "format": "date-time",
+          "description": "Gets or sets the sessions start time in UTC.",
+          "type": "string"
+        }
+      }
+    },
+    "StudyGroupTimetableItem": {
+      "required": [
+        "durationMinutes",
+        "id",
+        "startTimeUtc",
+        "timetableId",
+        "weekDays"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "timetableId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "durationMinutes": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "location": {
+          "type": "string"
+        },
+        "locationId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "startTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "weekDays": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DayOfWeek"
+          }
+        }
+      }
+    },
+    "StudyGroupType": {
+      "enum": [
+        "SupplementalInstructions",
+        "TutoringAppointment"
+      ],
+      "type": "string"
+    },
+    "StudyGroupUpdateTimetableInputModel": {
+      "required": [
+        "studyGroupTimetables"
+      ],
+      "type": "object",
+      "properties": {
+        "studyGroupTimetables": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UpdateStudyGroupTimetableModel"
+          }
+        }
+      }
+    },
+    "StudySessionCancelInputModel": {
+      "required": [
+        "sessionIds"
+      ],
+      "type": "object",
+      "properties": {
+        "sessionIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "StudySessionLocationInputModel": {
+      "type": "object",
+      "properties": {
+        "locationId": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "StudySessionModel": {
+      "description": "Study Session Detail",
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets Session Id",
+          "type": "integer"
+        },
+        "studyGroupTitle": {
+          "description": "Gets or sets title of study group",
+          "type": "string"
+        },
+        "participants": {
+          "description": "Gets or sets list of session participants",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudentUserModel"
+          }
+        },
+        "course": {
+          "$ref": "#/definitions/CourseShortModel"
+        },
+        "scheduledDateTimeUtc": {
+          "format": "date-time",
+          "description": "Gets or sets session scheduled start time",
+          "type": "string"
+        },
+        "durationMinutes": {
+          "format": "int32",
+          "description": "Gets or sets session duration",
+          "type": "integer"
+        },
+        "leader": {
+          "$ref": "#/definitions/LeaderUserModel"
+        },
+        "location": {
+          "$ref": "#/definitions/LocationShortModel"
+        },
+        "status": {
+          "$ref": "#/definitions/StudySessionStatus"
+        }
+      }
+    },
+    "StudySessionRowModel": {
+      "required": [
+        "capacity",
+        "course",
+        "id",
+        "isCancelled",
+        "isConducted",
+        "isInactive",
+        "leader",
+        "scheduledDateTimeUtc",
+        "studentsCount",
+        "studyGroup"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the unique identifier of entity.",
+          "type": "integer"
+        },
+        "studyGroup": {
+          "$ref": "#/definitions/StudyGroupShortModel"
+        },
+        "studentsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "capacity": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "course": {
+          "$ref": "#/definitions/CourseShortModel"
+        },
+        "scheduledDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "leader": {
+          "$ref": "#/definitions/LeaderUserModel"
+        },
+        "isConducted": {
+          "type": "boolean"
+        },
+        "isCancelled": {
+          "type": "boolean"
+        },
+        "isInactive": {
+          "type": "boolean"
+        },
+        "location": {
+          "type": "string"
+        }
+      }
+    },
+    "StudySessionRowModelPagedListModel": {
+      "required": [
+        "hasMorePages",
+        "items",
+        "pageNumber",
+        "totalItemsCount"
+      ],
+      "type": "object",
+      "properties": {
+        "totalItemsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudySessionRowModel"
+          }
+        }
+      }
+    },
+    "StudySessionSortBy": {
+      "enum": [
+        "ScheduledDateTimeUtc"
+      ],
+      "type": "string"
+    },
+    "StudySessionStatus": {
+      "description": "Study Session Statuses\r\nhttps://tedu.atlassian.net/wiki/spaces/PROD/pages/2782363670/UMKC+Session+Status",
+      "enum": [
+        "Scheduled",
+        "Ongoing",
+        "Finished",
+        "Cancelled"
+      ],
+      "type": "string"
+    },
+    "SuccessResultModel": {
+      "required": [
+        "success"
+      ],
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "TimeSlotModel": {
+      "required": [
+        "endTimeUtc",
+        "isInquired",
+        "isReserved",
+        "isTechnical",
+        "number",
+        "startTimeUtc"
+      ],
+      "type": "object",
+      "properties": {
+        "number": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "startTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "endTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "isTechnical": {
+          "type": "boolean"
+        },
+        "isReserved": {
+          "type": "boolean"
+        },
+        "isInquired": {
+          "type": "boolean"
+        }
+      }
+    },
+    "TimetableModel": {
+      "required": [
+        "id",
+        "timeSlots",
+        "weekDays"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "weekDays": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DayOfWeek"
+          }
+        },
+        "timeSlots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimeSlotModel"
+          }
+        }
+      }
+    },
+    "TokenModel": {
+      "required": [
+        "expiresInDateTimeUtc",
+        "refreshToken",
+        "token"
+      ],
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "expiresInDateTimeUtc": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "TutorInfoInputModel": {
+      "type": "object",
+      "properties": {
+        "maximumNumberOfHours": {
+          "type": "integer"
+        },
+        "personalLink": {
+          "type": "string"
+        },
+        "zoomPassCode": {
+          "type": "string"
+        },
+        "availableCourseIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "TutorInfoModel": {
+      "type": "object",
+      "properties": {
+        "studentUserId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "maximumNumberOfhours": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "personalLink": {
+          "type": "string"
+        },
+        "zoomPassCode": {
+          "type": "string"
+        },
+        "availableCourses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        }
+      }
+    },
+    "TutoringStatus": {
+      "description": "Represents the user status of the tutoring.",
+      "enum": [
+        "Student",
+        "NonContractorTutor",
+        "ContractorTutor"
+      ],
+      "type": "string"
+    },
+    "TutorRowModel": {
+      "required": [
+        "availableCourses",
+        "firstName",
+        "id",
+        "isInactive",
+        "lastName"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the unique identifier of entity.",
+          "type": "integer"
+        },
+        "firstName": {
+          "description": "Gets or sets the first name of the user.",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "Gets or sets the last name of the user.",
+          "type": "string"
+        },
+        "isInactive": {
+          "type": "boolean"
+        },
+        "availableCourses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CourseShortModel"
+          }
+        },
+        "appointmentGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AppointmentGroupShortModel"
+          }
+        },
+        "meetingCount": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "TutorRowModelPagedListModel": {
+      "required": [
+        "hasMorePages",
+        "items",
+        "pageNumber",
+        "totalItemsCount"
+      ],
+      "type": "object",
+      "properties": {
+        "totalItemsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TutorRowModel"
+          }
+        }
+      }
+    },
+    "TutorSortBy": {
+      "enum": [
+        "FullName",
+        "MeetingCount"
+      ],
+      "type": "string"
+    },
+    "UniversityPhoneNumberUpdateModel": {
+      "type": "object",
+      "properties": {
+        "phoneNumber": {
+          "type": "string"
+        }
+      }
+    },
+    "UniversitySettingsInputModel": {
+      "required": [
+        "address",
+        "email",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "maxLength": 254,
+          "type": "string"
+        },
+        "address": {
+          "maxLength": 254,
+          "type": "string"
+        },
+        "phoneNumber": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "email": {
+          "maxLength": 254,
+          "type": "string"
+        }
+      }
+    },
+    "UniversitySettingsModel": {
+      "required": [
+        "address",
+        "email",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "UniversitySettingsUpdateInputModel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "phoneNumberUpdateModel": {
+          "$ref": "#/definitions/UniversityPhoneNumberUpdateModel"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateAdminInputModel": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "pattern": "[\\p{L} -]+",
+          "type": "string"
+        },
+        "lastName": {
+          "pattern": "[\\p{L} -]+",
+          "type": "string"
+        },
+        "email": {
+          "format": "email",
+          "maxLength": 254,
+          "type": "string"
+        }
+      }
+    },
+    "UpdateStudyGroupTimetableModel": {
+      "required": [
+        "durationMinutes",
+        "startTimeUtc",
+        "timetableId"
+      ],
+      "type": "object",
+      "properties": {
+        "timetableId": {
+          "format": "int32",
+          "description": "Gets or sets the timetable identifier.",
+          "maximum": 2147483647,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "locationId": {
+          "format": "int32",
+          "description": "Gets or sets the location identifier.\r\nNull value if digital.",
+          "type": "integer"
+        },
+        "durationMinutes": {
+          "format": "int32",
+          "description": "Gets or sets the duration in minutes.",
+          "maximum": 2147483647,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "startTimeUtc": {
+          "format": "date-time",
+          "description": "Gets or sets the sessions start time in UTC.",
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the study group timetable identifier.\r\nGenerate new study group timetable if null.",
+          "type": "integer"
+        }
+      }
+    },
+    "UpdateUserInfoInputModel": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "pattern": "[\\p{L} -]+",
+          "type": "string"
+        },
+        "lastName": {
+          "pattern": "[\\p{L} -]+",
+          "type": "string"
+        },
+        "email": {
+          "format": "email",
+          "maxLength": 254,
+          "type": "string"
+        }
+      }
+    },
+    "UpdateUserInputModel": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "pattern": "[\\p{L} -]+",
+          "type": "string"
+        },
+        "lastName": {
+          "pattern": "[\\p{L} -]+",
+          "type": "string"
+        },
+        "email": {
+          "format": "email",
+          "maxLength": 254,
+          "type": "string"
+        },
+        "dateOfBirthUpdateModel": {
+          "$ref": "#/definitions/DateOfBirthUpdateModel"
+        },
+        "socialSecurityNumberUpdateModel": {
+          "$ref": "#/definitions/SocialSecurityNumberUpdateModel"
+        }
+      }
+    },
+    "UserDetailsModel": {
+      "required": [
+        "balanceCents",
+        "email",
+        "firstName",
+        "id",
+        "lastName",
+        "leadingStudyGroupsCount",
+        "studentCoursesCount",
+        "studyGroupsCount",
+        "totalSessionsCount",
+        "tutorCoursesCount",
+        "tutoredSessionsCount",
+        "tutoringStatus"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "Gets or sets the unique identifier of entity.",
+          "type": "integer"
+        },
+        "firstName": {
+          "description": "Gets or sets the first name of the user.",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "Gets or sets the last name of the user.",
+          "type": "string"
+        },
+        "dateOfBirth": {
+          "format": "date-time",
+          "description": "Gets or sets the user birth date.",
+          "type": "string"
+        },
+        "studentRating": {
+          "format": "double",
+          "description": "Gets or sets the user's rating as a student.",
+          "type": "number"
+        },
+        "tutorRating": {
+          "format": "double",
+          "description": "Gets or sets the user's rating as a tutor.",
+          "type": "number"
+        },
+        "studentCoursesCount": {
+          "format": "int32",
+          "description": "Gets or sets the count of courses the user is currently studying.",
+          "type": "integer"
+        },
+        "tutorCoursesCount": {
+          "format": "int32",
+          "description": "Gets or sets the count of courses the user is currently approved to tutor.",
+          "type": "integer"
+        },
+        "totalSessionsCount": {
+          "format": "int32",
+          "description": "Gets or sets the total count of sessions that the user participated in\r\n(both as a student and as a tutor).",
+          "type": "integer"
+        },
+        "tutoredSessionsCount": {
+          "format": "int32",
+          "description": "Gets or sets the total count of sessions that the user tutored in.",
+          "type": "integer"
+        },
+        "balanceCents": {
+          "format": "int32",
+          "description": "Gets or sets the current user balance in cents.",
+          "type": "integer"
+        },
+        "tutoringStatus": {
+          "$ref": "#/definitions/TutoringStatus"
+        },
+        "socialSecurityNumber": {
+          "description": "Gets or sets the social security number of the user.",
+          "type": "string"
+        },
+        "studyGroupsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "leadingStudyGroupsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "email": {
+          "type": "string"
+        },
+        "personalLink": {
+          "type": "string"
+        },
+        "studyGroupsLimit": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "UserIdModel": {
+      "required": [
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "UserInfoModel": {
+      "required": [
+        "email",
+        "firstName",
+        "id",
+        "isInactive",
+        "lastName"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "isInactive": {
+          "type": "boolean"
+        },
+        "leadingStatus": {
+          "$ref": "#/definitions/LeadingStatus"
+        },
+        "isLeader": {
+          "type": "boolean"
+        },
+        "isTutor": {
+          "type": "boolean"
+        }
+      }
+    },
+    "WeekDaysKey": {
+      "description": "Represents the key for different combinations of week days.",
+      "enum": [
+        "MW",
+        "TR",
+        "M",
+        "T",
+        "W",
+        "R",
+        "F",
+        "S",
+        "U"
+      ],
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}

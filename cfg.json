@@ -1,0 +1,11 @@
+{
+  "schemePath" : "swagger2.json",
+  "lang" : {
+    "name" : "Kotlin",
+    "ext" : ".kt",
+    "mutables" : true,
+    "nullability" : true,
+    "dataClass": false,
+    "serializable" : false
+  }
+}
