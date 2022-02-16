@@ -41,9 +41,35 @@ class KotlinTypeLexer : TypeLexer {
         }
     }
 
+    override fun type(type: Type, format: String?, items: Property?): String {
+        return when (type) {
+            Type.STRING -> {
+                if (format == "date-time") {
+                    "Date"
+                } else {
+                    type.name()
+                }
+            }
+            Type.INT, Type.BOOLEAN, Type.NUMBER -> {
+                type.name()
+            }
+            Type.ARRAY -> {
+                val items = checkNotNull(items)
+
+                if (items.reference != null) {
+                    "List<${items.getClassReference}>"
+                } else {
+                    val type = checkNotNull(items.type)
+                    "List<${type.name()}>"
+                }
+            }
+            else -> throw IllegalArgumentException("unknown type ${type}")
+        }
+    }
+
     fun Type.name() = when (this) {
         Type.STRING -> "String"
-        Type.INT -> "Integer"
+        Type.INT -> "Int"
         Type.BOOLEAN -> "Boolean"
         Type.NUMBER -> "Number"
         else -> ""

@@ -1,6 +1,7 @@
 package app.tedu.api_generator.di
 
 import app.tedu.api_generator.Cfg
+import app.tedu.api_generator.generator.ApiGenerator
 import app.tedu.api_generator.generator.ModelGenerator
 import app.tedu.api_generator.generator.PackageGenerator
 import app.tedu.api_generator.lexer.LexerBundle
@@ -40,6 +41,10 @@ class GeneratorDeps(
     }
 
     val packageGenerator by lazy {
-        PackageGenerator(lexers.method, lexers.model)
+        PackageGenerator()
+    }
+
+    val apiGenerator by lazy {
+        ApiGenerator(config.lang.ext, config.commonPackage, lexers.api)
     }
 }

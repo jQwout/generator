@@ -10,6 +10,7 @@ class Generator(
     private val gson: Gson,
     private val modelDelegate: ModelGenerator,
     private val packageGenerator: PackageGenerator,
+    private val apiAccessObjectGenerator: ApiGenerator,
     private val outPutDir: File
 ) {
 
@@ -32,6 +33,7 @@ class Generator(
             modelDelegate.generate(it).writeToFile(outPutDir)
         }
 
+        apiAccessObjectGenerator.generate(wr.apiFunWrapper).forEach { it.writeToFile(outPutDir) }
     }
 
 }

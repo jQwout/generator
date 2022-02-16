@@ -5,16 +5,19 @@ import com.google.gson.annotations.SerializedName
 class Method(
     val tags: List<String>,
 
+    val consumes: List<String>?,
+
     val parameters: List<MethodParam>?,
 
     val responses: Map<String, MethodResponse>
 ) {
     val success: MethodResponse?
         get() {
-            return responses.get("200")
+            return responses.getSuccess()
         }
 }
 
+fun Map<String, MethodResponse>.getSuccess() = get("200")
 
 class MethodResponse(
     val schema: Property?
@@ -29,7 +32,7 @@ class MethodParam(
 
     val required: Boolean = false,
 
-    val type: Type,
+    val type: Type?,
 
     val format: String?,
 

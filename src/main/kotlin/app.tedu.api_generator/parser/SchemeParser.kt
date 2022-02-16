@@ -26,7 +26,6 @@ class SchemeParser() {
         }
 
 
-
         val responses = funs.mapNotNull {
             if (it.method.success != null)
                 ResponseWrapper(
@@ -38,6 +37,7 @@ class SchemeParser() {
         }
 
         return SchemeWrapper(
+            funs,
             params,
             responses,
             scheme.definitions.filter { it.value.enum == null }

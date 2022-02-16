@@ -8,7 +8,7 @@ class Cfg(
 
     val lang: LangCfg,
 
-    val retrofit: Boolean
+    val apiClientLib: String?
 ) {
     val commonPackage: String get() = commonPkgName ?: "common"
 }

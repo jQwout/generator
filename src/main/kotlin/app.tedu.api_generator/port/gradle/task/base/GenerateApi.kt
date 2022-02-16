@@ -13,29 +13,23 @@ class GenerateApi(
         val dir = dir(outputFile)
         dir.deleteRecursively()
         dir.mkdir()
-        GeneratorDeps(Gson(), file(configPath)).apply {
-            Generator(
-                schemeParser,
-                provideGson(),
-                provideModelGenerator(),
-                packageGenerator,
-                dir(outputFile)
-            )
-                .generate(
-                    file(config.schemePath).readText()
-                )
-        }
+        generate(dir(outputFile))
     }
 
     operator fun invoke(outputFile: File) {
         outputFile.deleteRecursively()
         outputFile.mkdir()
+        generate(outputFile)
+    }
+
+    private fun generate(outputFile: File) {
         GeneratorDeps(Gson(), file(configPath)).apply {
             Generator(
                 schemeParser,
                 provideGson(),
                 provideModelGenerator(),
                 packageGenerator,
+                apiGenerator,
                 outputFile
             )
                 .generate(

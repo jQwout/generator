@@ -1,6 +1,7 @@
 package app.tedu.api_generator.model.files
 
 import app.tedu.api_generator.model.pojo.*
+import com.android.utils.usLocaleCapitalize
 
 class ApiFunWrapper(
     val path: String,
@@ -8,7 +9,9 @@ class ApiFunWrapper(
     val httpMethod: String,
 
     val method: Method
-)
+) {
+    val name get() = httpMethod + path.split("/").last { it.all { it.isLetter() } }.usLocaleCapitalize()
+}
 
 class RequestParamWrapper(
     val tags: List<String>,
