@@ -8,7 +8,9 @@ class Cfg(
 
     val lang: LangCfg,
 
-    val apiClientLib: String?
+    val apiClientLib: String?,
+
+    val targetPkg: String
 ) {
     val commonPackage: String get() = commonPkgName ?: "common"
 }

@@ -1,5 +1,6 @@
 {
   "schemePath" : "swagger2.json",
+  "targetPkg": "com.example",
   "lang" : {
     "name" : "Kotlin",
     "ext" : ".kt",

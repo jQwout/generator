@@ -29,7 +29,7 @@ class KotlinMethodLexer(
     }
 
     private fun StringBuilder.header(method: String, path: String, hasBody: Boolean) {
-        appendLine("\t@HTTP(method = \"$method\", path = \"$path\", body = $hasBody)")
+        appendLine("\t@HTTP(method = \"$method\", path = \"$path\", hasBody = $hasBody)")
     }
 
     private fun StringBuilder.contentHeader(method: Method) {
@@ -69,10 +69,10 @@ class KotlinMethodLexer(
         val nil = if (param.required) "" else "?"
         val ann = when (param.place) {
             "body" -> "@Body"
-            "query" -> "@Query(${param.name})"
-            "path" -> "@Path(${param.name})"
+            "query" -> "@Query(\"${param.name}\")"
+            "path" -> "@Path(\"${param.name}\")"
             "formData" -> when {
-                isFormUrlEncoded -> "@Field(${param.name})"
+                isFormUrlEncoded -> "@Field(\"${param.name}\")"
                 isMultipart -> "@Part"
                 else -> IllegalArgumentException("not found type to ${param.place}")
             }
@@ -89,8 +89,4 @@ class KotlinMethodLexer(
 
         return "\t\t$ann ${param.name}: $type$nil"
     }
-
-    private val Method.hasUrlEncoded get() = this.consumes?.contains(URL_ENCODED) ?: false
-
-    private val Method.hasMultipart get() = this.consumes?.contains(MULTIPART) ?: false
 }

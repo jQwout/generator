@@ -11,10 +11,10 @@ class LexerFactory(private val cfg: Cfg) {
             val ktml = KotlinMethodLexer(ktl)
             LexerBundle(
                 type = ktl,
-                model = KotlinModelLexer(cfg.lang, ktl),
+                model = KotlinModelLexer(cfg, cfg.lang, ktl),
                 enum = KotlinEnumLexer(),
                 method = ktml,
-                api = KotlinRetrofitLexer(ktml)
+                api = KotlinRetrofitLexer(ktml, cfg)
             )
         } else {
             throw IllegalArgumentException("cannot support lang : ${cfg.lang.name}")

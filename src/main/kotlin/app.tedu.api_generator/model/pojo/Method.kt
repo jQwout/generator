@@ -17,6 +17,9 @@ class Method(
         }
 }
 
+val Method.hasUrlEncoded get() = this.consumes?.contains(URL_ENCODED) ?: false
+val Method.hasMultipart get() = this.consumes?.contains(MULTIPART) ?: false
+
 fun Map<String, MethodResponse>.getSuccess() = get("200")
 
 class MethodResponse(

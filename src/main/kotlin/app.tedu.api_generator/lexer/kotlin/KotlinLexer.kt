@@ -1,5 +1,6 @@
 package app.tedu.api_generator.lexer.kotlin
 
+import app.tedu.api_generator.Cfg
 import app.tedu.api_generator.LangCfg
 import app.tedu.api_generator.dsl.*
 import app.tedu.api_generator.lexer.ModelLexer
@@ -11,6 +12,7 @@ import app.tedu.api_generator.model.pojo.Ref
 
 
 class KotlinModelLexer(
+    private val cfg: Cfg,
     private val langCfg: LangCfg,
     private val typeLexer: TypeLexer
 ) : ModelLexer {
@@ -31,7 +33,7 @@ class KotlinModelLexer(
 
     override fun model(model: ModelWrapper): String {
         return kotlinClass(
-            imports = model.getImports(),
+            imports = model.getImports(cfg.targetPkg),
             comments = listOf(model.getComment()),
             classContent = dataOrSimpleClass withName clazz(model) {
 
@@ -56,11 +58,11 @@ class KotlinModelLexer(
         return typeLexer.type(it.value).required(this, it.key)
     }
 
-    private fun ModelWrapper.getImports() = model.properties.values
+    private fun ModelWrapper.getImports(targetPkg: String) = model.properties.values
         .mapNotNull {
             it.getClassReferenceOrNull ?: it.items?.getClassReferenceOrNull
         }
-        .map { Ref.getCommonOrTag(it) + "." + it }
+        .map { targetPkg + "." + Ref.getCommonOrTag(it) + "." + it }
         .toSet()
 
     private fun ModelWrapper.getComment() = Ref.getTags(this.name).joinToString()

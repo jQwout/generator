@@ -92,8 +92,10 @@ class Ref(
             }
         }
 
-        fun getImportTag(className: String): String {
-            return getCommonOrTag(className) + "." + className
+        fun getImportTag(className: String, targetPkg: String?): String {
+            val pref = if (targetPkg != null) "$targetPkg." else null
+
+            return pref + getCommonOrTag(className) + "." + className
         }
     }
 }
